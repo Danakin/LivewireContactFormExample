@@ -40,6 +40,8 @@ class ContactForm extends Mailable
      */
     public function build()
     {
-        return $this->view("emails.contact-form")->from($this->email);
+        return $this->view("emails.contact-form")
+            ->from($this->email)
+            ->subject("New Contact Form Submission");
     }
 }

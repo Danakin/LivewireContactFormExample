@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+// use App\Jobs\SendEmail; // Used for alternative Queue
 use App\Mail\ContactForm as ContactFormMailable;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
@@ -32,7 +33,11 @@ class ContactForm extends Component
             "message" => ["required", "min:4"],
         ]);
 
-        Mail::to("example@ttg.com")->send(
+        // Send the E-Mail directly, just leaving this in to highlight difference, would delete in real application...
+        // Mail::to("example@ttg.com")->send();
+
+        // Send the E-Mail to a queue
+        Mail::to("example@ttg.com")->queue(
             new ContactFormMailable(
                 $this->first_name,
                 $this->last_name,
@@ -40,6 +45,15 @@ class ContactForm extends Component
                 $this->message
             )
         );
+
+        // Alternative Method of Queuing using Job App/Jobs/SendEmail
+        // In case of E-Mail this is a case of DRY, but I left it in for completion as an example for other queuable jobs (Uploading files to S3 etc.)
+        // SendEmail::dispatch(
+        //     $this->first_name,
+        //     $this->last_name,
+        //     $this->email,
+        //     $this->message
+        // );
 
         session()->flash("success", "Mail has successfully been sent!");
         $this->resetForm();
