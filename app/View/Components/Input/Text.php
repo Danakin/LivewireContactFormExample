@@ -8,6 +8,7 @@ class Text extends Component
 {
     public $name;
     public $model;
+    public $required;
     public $type;
 
     /**
@@ -15,10 +16,15 @@ class Text extends Component
      *
      * @return void
      */
-    public function __construct($name = "", $model = "", $type = "text")
-    {
+    public function __construct(
+        $name = "",
+        $model = "",
+        $required = false,
+        $type = "text"
+    ) {
         $this->name = $name;
         $this->model = $model;
+        $this->required = $required;
         $this->type = $type;
     }
 

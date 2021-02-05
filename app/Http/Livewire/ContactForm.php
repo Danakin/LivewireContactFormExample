@@ -11,17 +11,28 @@ class ContactForm extends Component
     public $email;
     public $message;
 
-    public function updated($propertyName) {
+    public function updated($propertyName)
+    {
         $this->validateOnly($propertyName, [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
-            'email' => ['required', 'email:rfc,dns'],
-            'message' => ['required', 'min:4']
+            "first_name" => ["required"],
+            "last_name" => ["required"],
+            "email" => ["required", "email:rfc,dns"],
+            "message" => ["required", "min:4"],
+        ]);
+    }
+
+    public function submit()
+    {
+        $this->validate([
+            "first_name" => ["required"],
+            "last_name" => ["required"],
+            "email" => ["required", "email:rfc,dns"],
+            "message" => ["required", "min:4"],
         ]);
     }
 
     public function render()
     {
-        return view('livewire.contact-form');
+        return view("livewire.contact-form");
     }
 }
