@@ -18,6 +18,6 @@
         <x-input.text name="last_name" model="last_name" required>Last Name</x-input.text>
         <x-input.text name="email" model="email" type="email" required>Email</x-input.text>
         <x-input.text-area name="message" model="message" required>Your Message</x-input.text-area>
-        <button class="px-4 py-2 bg-blue-600 text-white" wire:click="$set('successMessage', null)">Submit</button>
+        <x-input.button class="bg-blue-600 text-white" wire:click="$set('successMessage', null)">Submit</x-input.button>
     </form>
 </section>
