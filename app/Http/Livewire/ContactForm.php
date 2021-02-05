@@ -13,25 +13,23 @@ class ContactForm extends Component
     public $last_name;
     public $email;
     public $message;
+    public $successMessage;
+
+    protected $rules = [
+        "first_name" => "required",
+        "last_name" => "required",
+        "email" => "required|email:rfc,dns",
+        "message" => "required|min:4",
+    ];
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName, [
-            "first_name" => ["required"],
-            "last_name" => ["required"],
-            "email" => ["required", "email:rfc,dns"],
-            "message" => ["required", "min:4"],
-        ]);
+        $this->validateOnly($propertyName);
     }
 
     public function submit()
     {
-        $this->validate([
-            "first_name" => ["required"],
-            "last_name" => ["required"],
-            "email" => ["required", "email:rfc,dns"],
-            "message" => ["required", "min:4"],
-        ]);
+        $form = $this->validate();
 
         // Send the E-Mail directly, just leaving this in to highlight difference, would delete in real application...
         // Mail::to("example@ttg.com")->send();
@@ -55,7 +53,8 @@ class ContactForm extends Component
         //     $this->message
         // );
 
-        session()->flash("success", "Mail has successfully been sent!");
+        // session()->flash("success", "Mail has successfully been sent!");
+        $this->successMessage = "Mail has successfully been sent!";
         $this->resetForm();
     }
 
