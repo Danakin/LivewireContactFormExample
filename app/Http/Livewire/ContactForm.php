@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\ContactForm as ContactFormMailable;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
@@ -31,27 +32,25 @@ class ContactForm extends Component
             "message" => ["required", "min:4"],
         ]);
 
-        Mail::raw(
-            "It works! This mail is from " .
-                implode(" ", [$this->first_name, $this->last_name]) .
-                " (" .
-                $this->email .
-                ") and it's message says " .
-                $this->message,
-            function ($message) {
-                $message
-                    ->to("danny@festor.info")
-                    ->from($this->email)
-                    ->subject("Contact Form Email");
-
-                session()->flash("success", "Mail has successfully been sent!");
-
-                $this->first_name = "";
-                $this->last_name = "";
-                $this->email = "";
-                $this->message = "";
-            }
+        Mail::to("example@ttg.com")->send(
+            new ContactFormMailable(
+                $this->first_name,
+                $this->last_name,
+                $this->email,
+                $this->message
+            )
         );
+
+        session()->flash("success", "Mail has successfully been sent!");
+        $this->resetForm();
+    }
+
+    private function resetForm()
+    {
+        $this->first_name = "";
+        $this->last_name = "";
+        $this->email = "";
+        $this->message = "";
     }
 
     public function render()
