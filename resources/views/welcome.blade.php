@@ -16,9 +16,7 @@
     </head>
     <body class="antialiased min-h-screen">
         <main class="relative min-h-screen h-full flex flex-row items-center justify-center">
-            <section>
-                Test
-            </section>
+            @livewire('contact-form')
         </main>
         @livewireScripts
     </body>
